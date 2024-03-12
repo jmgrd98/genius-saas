@@ -9,8 +9,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { ChatCompletionMessageParam } from 'openai/resources/index.mjs';
 
 const ConversationPage = () => {
+    const router = useRouter();
+
+    const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
+
+
     const form = useForm<zod.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -21,7 +30,13 @@ const ConversationPage = () => {
     const isLoading = form.formState.isSubmitting;
 
     const onSubmit = async (values: zod.infer<typeof formSchema>) => {
-        console.log(values);
+        try {
+          
+        } catch (error: any) {
+          console.error(error);
+        } finally {
+          router.refresh();
+        }
     }
 
   return (
