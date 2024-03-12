@@ -16,6 +16,8 @@ import { ChatCompletionMessageParam } from 'openai/resources/index.mjs';
 import Empty from '@/components/Empty';
 import Loader from '@/components/Loader';
 import { cn } from '@/lib/utils';
+import UserAvatar from '@/components/UserAvatar';
+import BotAvatar from '@/components/BotAvatar';
 
 const ConversationPage = () => {
     const router = useRouter();
@@ -110,6 +112,7 @@ const ConversationPage = () => {
                   <div
                     className={cn('p-8 w-full flex items-start gap-x-8 rounded-lg', message.role === 'user' ? 'bg-white border border-black/10' : 'bg-muted')}
                     key={message.content}>
+                    {message.role === 'user' ? <UserAvatar/> : <BotAvatar/>}
                     {message.content}
                   </div>
                 ))}
