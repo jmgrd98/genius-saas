@@ -22,13 +22,14 @@ import BotAvatar from '@/components/BotAvatar';
 const ImagePage = () => {
     const router = useRouter();
 
-    const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
-
+    const [images, setImages] = useState<string[]>([]);
 
     const form = useForm<zod.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-          prompt: ''  
+          prompt: '',
+          amount: '1',
+          resolution: '512x512'
         }
     });
 
@@ -36,18 +37,11 @@ const ImagePage = () => {
 
     const onSubmit = async (values: zod.infer<typeof formSchema>) => {
         try {
-          const userMessage: ChatCompletionMessageParam = {
-            role: 'user',
-            content: values.prompt
-          };
+          setImages([]);
+          const response: any = await axios.post('/api/image', values);
 
-          const newMessages = [...messages, userMessage];
-
-          const response: any = await axios.post('/api/conversation', {
-            messages: newMessages
-          });
-
-          setMessages((current) => [...current, userMessage, response.data]);
+          const urls = response.data.map((image: { url: string }) => image.url);
+          setImages(urls);
           form.reset();
         } catch (error: any) {
           console.error(error);
@@ -100,23 +94,16 @@ const ImagePage = () => {
 
         <div className='space-y-4 mt-4'>
           {isLoading && (
-            <div className='p-8 rounded-lg w-full flex items-center justify-center bg-muted'>
+            <div className='p-20'>
               <Loader />
             </div>
           )}
-          {messages.length === 0 && !isLoading && (
-            <Empty label='No conversations started.' />
+          {images.length === 0 && !isLoading && (
+            <Empty label='No images generated.' />
           )}
-            <div className='flex flex-col-reverse gap-y-4'>
-                {messages.map((message: any) => (
-                  <div
-                    className={cn('p-8 w-full flex items-start gap-x-8 rounded-lg', message.role === 'user' ? 'bg-white border border-black/10' : 'bg-muted')}
-                    key={message.content}>
-                    {message.role === 'user' ? <UserAvatar/> : <BotAvatar/>}
-                    <p className='text-sm'>{message.content}</p>
-                  </div>
-                ))}
-            </div>
+           <div>
+              Images will be rendered here
+           </div>
         </div>
       </div>
     </div>
