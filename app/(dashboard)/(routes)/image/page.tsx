@@ -2,7 +2,7 @@
 
 import * as zod from 'zod';
 import Heading from "@/components/Heading"
-import { MessageSquare } from "lucide-react"
+import { ImageIcon } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { formSchema } from './constants';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -19,7 +19,7 @@ import { cn } from '@/lib/utils';
 import UserAvatar from '@/components/UserAvatar';
 import BotAvatar from '@/components/BotAvatar';
 
-const ConversationPage = () => {
+const ImagePage = () => {
     const router = useRouter();
 
     const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
@@ -59,11 +59,11 @@ const ConversationPage = () => {
   return (
     <div>
       <Heading 
-        title="Conversation"
-        description="Our most advanced conversation model."
-        icon={MessageSquare}
-        iconColor="text-violet-500"
-        bgColor="bg-violet-500/10"
+        title="Image Generation"
+        description="Turn your prompt into an image."
+        icon={ImageIcon}
+        iconColor="text-pink-700"
+        bgColor="bg-pink-700/10"
       />
 
       <div className="px-4 lg:px-8">
@@ -123,4 +123,4 @@ const ConversationPage = () => {
   )
 }
 
-export default ConversationPage
+export default ImagePage
