@@ -31,8 +31,10 @@ export async function POST(req: Request) {
             messages,
             model: "gpt-3.5-turbo",
         });
+
+        console.log(response);
         
-        return NextResponse.json(response?.data.choices[0].message);
+        return NextResponse.json(response?.choices[0].message);
     } catch (error) {
         console.error('[CONVERSATION_ERROR]', error);
         return new NextResponse('Internal error', {status:500})
