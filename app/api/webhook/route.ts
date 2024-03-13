@@ -5,7 +5,8 @@ import prismadb from '@/lib/prismadb';
 import { stripe } from '@/lib/stripe';
 
 export async function POST(req: Request) {
-    const body: any = await req.text;
+    console.log('ENTROU NO WEBHOOOOK')
+    const body: any = await req.text();
     const signature = headers().get('Stripe-Signature') as string;
 
     let event: Stripe.Event;
@@ -32,7 +33,7 @@ export async function POST(req: Request) {
             return new NextResponse('UserId is required', { status: 400 });
         }
 
-        await prismadb.userSubscription.create({
+        const response = await prismadb.userSubscription.create({
             data: {
                 userId: session?.metadata?.userId,
                 stripeSubscriptionId: subscription.id,
@@ -43,6 +44,7 @@ export async function POST(req: Request) {
                 )
             }
         });
+        console.log(response)
     }
 
     if (event.type === 'invoice.payment_succeeded') {
