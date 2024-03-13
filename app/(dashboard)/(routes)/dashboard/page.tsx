@@ -41,7 +41,7 @@ const tools = [
     bgColor: 'bg-green-700/10',
     href: '/code'
   },
-]
+];
 
 const DashboardPage = () => {
   const router = useRouter();
