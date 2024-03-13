@@ -3,6 +3,7 @@ import Configuration from 'openai';
 import OpenAI from 'openai';
 import { auth } from '@clerk/nextjs';
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs';
+import { increaseApiLimit, checkApiLimit } from '@/lib/api-limit';
 
 const configuration: any = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
@@ -32,6 +33,14 @@ export async function POST(req: Request) {
         if (!messages) {
             return new NextResponse('Messages are required', { status: 400 })
         }
+
+        const freeTrial = await checkApiLimit();
+
+        if (!freeTrial) {
+            return new NextResponse("Free trial has expired", { status: 403 });
+        }
+
+        await increaseApiLimit();
 
         const response: any = await openai.chat.completions.create({
             messages: [instructionMessage, ...messages],
