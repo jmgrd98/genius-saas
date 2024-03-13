@@ -56,7 +56,9 @@ export async function GET() {
             metadata: {
                 userId
             }
-        })
+        });
+
+        return new NextResponse(JSON.stringify({ url: stripeSession.url }));
 
     } catch (error) {
         console.error('STRIPE_ERROR', error);
