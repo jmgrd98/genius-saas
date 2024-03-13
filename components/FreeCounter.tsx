@@ -17,9 +17,12 @@ const FreeCounter = ({ apiLimitCount = 0 }: FreeCounterProps) => {
 
     useEffect(() => {
         setMounted(true);
+        console.log(apiLimitCount)
     }, []);
 
-    if(!mounted) return null;
+    if(!mounted) {
+        return null;
+    };
 
   return (
     <div className='px-3'>
