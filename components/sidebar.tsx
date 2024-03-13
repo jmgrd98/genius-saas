@@ -6,6 +6,7 @@ import { Montserrat } from "next/font/google"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation";
+import FreeCounter from "./FreeCounter";
 
 const montserrat = Montserrat({ weight: '600', subsets: ['latin'] });
 
@@ -51,9 +52,13 @@ const routes = [
         icon: Settings,
         href: '/settings',
     },
-]
+];
 
-const Sidebar = () => {
+interface SidebarProps {
+    apiLimitCount: number;
+}
+
+const Sidebar = ({ apiLimitCount }: SidebarProps) => {
     const pathname = usePathname();
 
   return (
@@ -84,6 +89,8 @@ const Sidebar = () => {
             ))}
         </div>
       </div>
+
+      <FreeCounter apiLimitCount={apiLimitCount} />
     </div>
   )
 }
