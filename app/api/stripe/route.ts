@@ -40,7 +40,7 @@ export async function GET() {
             line_items: [
                 {
                     price_data: {
-                        currency: 'BRL',
+                        currency: 'USD',
                         product_data: {
                             name: 'Genius Pro',
                             description: 'Unlimited AI Generations',
