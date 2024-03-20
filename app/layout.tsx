@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider isSatellite domain={(url) => url.host} signInUrl='https://genius-saas-theta.vercel.app/sign-in'>
       <html lang="en">
         <CrispProvider/>
         <body className={inter.className}>
