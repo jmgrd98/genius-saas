@@ -3,6 +3,7 @@ import Configuration from 'openai';
 import OpenAI from 'openai';
 import { auth } from '@clerk/nextjs';
 import { checkApiLimit, increaseApiLimit } from '@/lib/api-limit';
+import { checkSubscription } from '@/lib/subscription';
 
 const configuration: any = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
@@ -37,8 +38,8 @@ export async function POST(req: Request) {
         }
 
         const freeTrial = await checkApiLimit();
-
-        if (!freeTrial) {
+        const isPro = await checkSubscription();
+        if (!freeTrial && !isPro) {
             return new NextResponse("Free trial has expired", { status: 403 });
         }
 
@@ -48,8 +49,7 @@ export async function POST(req: Request) {
             size: resolution,
         });
 
-        await increaseApiLimit();
-        console.log(response);
+        if (!isPro) await increaseApiLimit();
         
         return NextResponse.json(response?.data);
     } catch (error) {
