@@ -19,7 +19,6 @@ const FreeCounter = ({ apiLimitCount = 0, isPro = false }: FreeCounterProps) => 
 
     useEffect(() => {
         setMounted(true);
-        console.log(apiLimitCount)
     }, []);
 
     if(!mounted) {
