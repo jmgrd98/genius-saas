@@ -10,7 +10,7 @@ export const checkSubscription = async () => {
         return false;
     }
 
-    const userSubscription = await prisma?.userSubscription.findUnique({
+    const userSubscription = await prismadb?.userSubscription.findUnique({
         where: {
             userId
         },
